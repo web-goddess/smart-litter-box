@@ -66,6 +66,8 @@ Every day, another Lambda function retrieves the timestamps from DynamoDB. If an
 
 7. Now when you test your Lambda function, it should recognise that it's been too long since you scooped the litterbox and send you an email reminder!
 
+8. The final step is to set up a cron job so your reminder runs once per day. Go to [CloudWatch](https://console.aws.amazon.com/cloudwatch/) and click on **Rules**. Click the **Create rule** button. Select the **Schedule** option and then **Cron expression**. I've used this for my rule: `0 21 * * ? *`. That will run every day at 21:00 GMT (which happens to be 7am in Sydney), but you can adjust as needed. Click the **Add target** button and select your Lambda function. Give your rule a name and enable it. You're set!
+
 ## Ideas and improvements
 
 You can use SMS instead of email if you want. You don't get SMS on the AWS free tier in Australia (but you do in the US), and I'm a tightarse so I went with email.
