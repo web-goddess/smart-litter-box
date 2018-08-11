@@ -22,31 +22,33 @@ Every day, another Lambda function retrieves the timestamps from DynamoDB. If an
 
 1. Get yourself an [AWS IoT Button](https://www.amazon.com/AWS-IoT-Button-2nd-Generation/dp/B01KW6YCIM/) somehow. (No, they don't ship to Australia. I know it sucks.)
 
-2. Install the mobile app for [iOS](https://itunes.apple.com/us/app/aws-iot-button/id1178216626?mt=8) or [Android](https://play.google.com/store/apps/details?id=com.amazonaws.iotbutton&hl=en).
+2. Register for an [Amazon Web Services](https://aws.amazon.com/) account if you don't already have one.
 
-3. Use the app to set up your IoT button. When it asks you to configure the button action, tick the option for **Trigger IFTTT Maker (nodejs)**. Then pause!
+3. Install the mobile app for [iOS](https://itunes.apple.com/us/app/aws-iot-button/id1178216626?mt=8) or [Android](https://play.google.com/store/apps/details?id=com.amazonaws.iotbutton&hl=en).
 
-4. Hop over to [IFTTT](https://ifttt.com) and register if you don't already have an account. Then connect the [Webhooks](https://ifttt.com/maker_webhooks) service and take note of the API key it assigns you.
+4. Use the app to set up your IoT button. When it asks you to configure the button action, tick the option for **Trigger IFTTT Maker (nodejs)**. Then pause!
 
-5. Go back to the mobile app and enter the API key you got from IFTTT. Be careful you don't have any typos!
+5. Hop over to [IFTTT](https://ifttt.com) and register if you don't already have an account. Then connect the [Webhooks](https://ifttt.com/maker_webhooks) service and take note of the API key it assigns you.
 
-6. Finish setting up your button, which will create a bunch of services in AWS.
+6. Go back to the mobile app and enter the API key you got from IFTTT. Be careful you don't have any typos!
 
-7. Log into the [AWS Console](https://console.aws.amazon.com/lambda/) and view your Lambda functions. You should see that one has been created for your button. Click on it to view the configuration.
+7. Finish setting up your button, which will create a bunch of services in AWS.
+
+8. Log into the [AWS Console](https://console.aws.amazon.com/lambda/) and view your Lambda functions. You should see that one has been created for your button. Click on it to view the configuration.
 
 	The name of your function will be something like `iotbutton_{LONG ALPHANUMERIC STRING}_iot-button-ifttt-maker-nodejs`. That alphanumeric string is the serial number for your button. Copy it down because you'll need it to set up your webhooks.
 
-8. Change the runtime for your Lambda function to **Node.js 8.10**. Replace the existing code with the code from `button.js`. You can change the AWS region if you need to. Find the bit that says `{YOUR KEY GOES HERE}` and replace it with your IFTTT API key from Step 4. Save the function.
+9. Change the runtime for your Lambda function to **Node.js 8.10**. Replace the existing code with the code from `button.js`. You can change the AWS region if you need to. Find the bit that says `{YOUR KEY GOES HERE}` and replace it with your IFTTT API key from Step 4. Save the function.
 
-9. Head to [DynamoDB](https://console.aws.amazon.com/dynamodb/) and create a new table called `litterboxStatus`. The partition key should be `litterbox` (type: String).
+10. Head to [DynamoDB](https://console.aws.amazon.com/dynamodb/) and create a new table called `litterboxStatus`. The partition key should be `litterbox` (type: String).
 
-10. Go to [Identity and Access Management (IAM)](https://console.aws.amazon.com/iam/) and click on **Roles**. You should see a role that was created for your button Lambda. Click on it and edit the policy to allow access to the DynamoDB table you just created.
+11. Go to [Identity and Access Management (IAM)](https://console.aws.amazon.com/iam/) and click on **Roles**. You should see a role that was created for your button Lambda. Click on it and edit the policy to allow access to the DynamoDB table you just created.
 
-11. Go back to IFTTT and [create a new applet](https://ifttt.com/create). The trigger will be the **Webhooks** service. The event name will be `{YOUR SERIAL NUMBER}-DOUBLE`. Paste in your serial number from Step 7. The action can be whatever you like - I've used Todoist to add a task to a list.
+12. Go back to IFTTT and [create a new applet](https://ifttt.com/create). The trigger will be the **Webhooks** service. The event name will be `{YOUR SERIAL NUMBER}-DOUBLE`. Paste in your serial number from Step 7. The action can be whatever you like - I've used Todoist to add a task to a list.
 
-12. Set up another IFTTT webhook where the trigger is `{YOUR SERIAL NUMBER}-LONG`. Again, you can have the action be whatever you like.
+13. Set up another IFTTT webhook where the trigger is `{YOUR SERIAL NUMBER}-LONG`. Again, you can have the action be whatever you like.
 
-13. You're now ready to test! Try out the three types of button presses. Single-clicks should show up in your DynamoDB table. (Each click will update the timestamp of the current row). Double-clicks and long presses should trigger your IFTTT actions.
+14. You're now ready to test! Try out the three types of button presses. Single-clicks should show up in your DynamoDB table. (Each click will update the timestamp of the current row). Double-clicks and long presses should trigger your IFTTT actions.
 
 ### The reminding part
 
