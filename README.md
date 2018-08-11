@@ -1,9 +1,8 @@
 # A "Smart" Litterbox
-Using the AWS IoT button to create a smarter litterbox. 🙀💩
 
 My friend Frank gave me one of the [AWS IoT Buttons](https://www.amazon.com/AWS-IoT-Button-2nd-Generation/dp/B01KW6YCIM/) and I decided to use it to remind us to clean our cats' litterbox. (We have two litterboxes, but one is out-of-the-way so we rarely remember.)
 
-##The basic idea
+## The basic idea
 We click the button whenever we perform certain actions:
 
 - Whenever we clean the litterbox, we "single-click" the IoT button.
